@@ -271,8 +271,8 @@ async def create_certificate(
     current_user: User = Depends(require_roles([UserRole.RETAILER]))
 ):
     cert_dict = cert_data.dict()
+    cert_dict['retailer_id'] = current_user.id
     cert_obj = Certificate(**cert_dict)
-    cert_obj.retailer_id = current_user.id
     
     await db.certificates.insert_one(cert_obj.dict())
     return cert_obj
