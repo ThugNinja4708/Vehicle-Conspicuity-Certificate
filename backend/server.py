@@ -23,9 +23,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'your-secret-key-change-in-production'
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
-# Password hashing
-try:
-    pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")\nexcept Exception as e:\n    print(f\"Bcrypt setup error: {e}\")\n    # Fallback to simpler hashing\n    import hashlib\n    def simple_hash(password):\n        return hashlib.sha256(password.encode()).hexdigest()\n    def simple_verify(password, hashed):\n        return hashlib.sha256(password.encode()).hexdigest() == hashed\nsecurity = HTTPBearer()
+# Password hashing - using hashlib for simplicity in MVP
+import hashlib
+security = HTTPBearer()
 
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
