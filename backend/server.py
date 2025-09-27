@@ -128,12 +128,7 @@ def verify_password(plain_password, hashed_password):
     return hashlib.sha256(plain_password.encode()).hexdigest() == hashed_password
 
 def get_password_hash(password):
-    # Truncate password to 72 bytes for bcrypt compatibility
-    if isinstance(password, str):
-        password = password.encode('utf-8')
-    if len(password) > 72:
-        password = password[:72]
-    return pwd_context.hash(password.decode('utf-8') if isinstance(password, bytes) else password)
+    return hashlib.sha256(password.encode()).hexdigest()
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
