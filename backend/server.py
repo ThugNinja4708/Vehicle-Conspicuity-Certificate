@@ -24,8 +24,8 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 # Password hashing
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto", bcrypt__rounds=12)
-security = HTTPBearer()
+try:
+    pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")\nexcept Exception as e:\n    print(f\"Bcrypt setup error: {e}\")\n    # Fallback to simpler hashing\n    import hashlib\n    def simple_hash(password):\n        return hashlib.sha256(password.encode()).hexdigest()\n    def simple_verify(password, hashed):\n        return hashlib.sha256(password.encode()).hexdigest() == hashed\nsecurity = HTTPBearer()
 
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
