@@ -169,6 +169,10 @@ def require_roles(allowed_roles: List[str]):
     return role_checker
 
 # Routes
+@api_router.get("/")
+async def root():
+    return {"message": "Vehicle Conspicuity Management System API"}
+
 @api_router.post("/auth/register", response_model=User)
 async def register_user(
     user_data: UserCreate,
